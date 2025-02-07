@@ -1,0 +1,21 @@
+{
+    "name": "tauri-vue-dev",
+    "build": { "dockerfile": "Dockerfile" },
+    "features": {
+        "ghcr.io/devcontainers/features/desktop-lite:1": {},
+        "ghcr.io/devcontainers/features/node:1": {},
+        "ghcr.io/devcontainers/features/rust:1": {}
+    },
+    "forwardPorts": [6080],
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "editorconfig.editorconfig",
+                "ms-azuretools.vscode-docker",
+                "rust-lang.rust-analyzer",
+                "tauri-apps.tauri-vscode",
+                "Vue.volar"
+            ]
+        }
+    }
+}

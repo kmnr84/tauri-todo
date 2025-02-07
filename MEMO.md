@@ -1,0 +1,1 @@
+コンテナで開発するときは GUI がないので `desktop-lite` を入れる。これがないと `Failed to initialize GTK` というエラーでビルドが通らない。
