@@ -2,6 +2,7 @@
   "name": "tauri-todo",
   "private": true,
   "version": "0.1.0",
+  "description": "A simple Todo application using Tauri and Vue.",
   "type": "module",
   "scripts": {
     "dev": "vite",
