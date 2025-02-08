@@ -1,15 +1,28 @@
 <template>
-    <div class="todo-item" :class="{ completed: completed }">
-      <input type="checkbox" v-model="completed" />
-      <span>{{ title }}</span>
-      <button @click="() => emit('delete')">Remove</button>
+    <div class="todo-item" :class="{ completed: props.completed }">
+      <input type="checkbox" v-model="localCompleted" @change="updateCompleted" />
+      <span>{{ props.title }}</span>
+      <button @click="deleteTodo">Delete</button>
     </div>
   </template>
   
 <script setup lang="ts">
-  const props = defineProps<{ title: string }>();
-  const completed = defineModel('completed', { type: Boolean });
-  const emit = defineEmits(['delete']);
+  import { ref, watch } from 'vue';
+  const props = defineProps<{ title: string, completed: boolean }>();
+  const emit = defineEmits(['update:completed', 'delete']);
+  const localCompleted = ref(props.completed);
+
+  watch(() => props.completed, (newCompleted) => {
+    localCompleted.value = newCompleted;
+  });
+
+  function updateCompleted() {
+    emit('update:completed', localCompleted.value);
+  }
+
+  function deleteTodo() {
+    emit('delete');
+  }
 </script>
   
 <style scoped>
