@@ -8,11 +8,12 @@ pub struct Todo {
 
 impl Todo {
     pub fn new(title: String) -> Result<Self, &'static str> {
-        if title.is_empty() {
+        let trimmed_title = title.trim().to_string();
+        if trimmed_title.is_empty() {
             Err("title cannot be empty")
         } else {
             Ok(Self {
-                title,
+                title: trimmed_title,
                 completed: false,
             })
         }

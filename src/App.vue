@@ -5,16 +5,21 @@ import { invoke } from "@tauri-apps/api/core";
 
 const todos = ref<{ title: string; completed: boolean }[]>([]);
 const newTodoTitle = ref("");
+const errorMessage = ref<string | null>(null);
 
 async function fetchTodos() {
   todos.value = await invoke('get_todos');
 }
 
 async function addTodo() {
-  if (newTodoTitle.value.trim()) {
+  try {
     await invoke('add_todo', { title: newTodoTitle.value });
-    newTodoTitle.value = "";
+    errorMessage.value = null;
     fetchTodos();
+  } catch (e) {
+    errorMessage.value = e as string;
+  } finally {
+    newTodoTitle.value = "";
   }
 }
 
@@ -43,8 +48,7 @@ onMounted(fetchTodos);
       <button type="submit">Add</button>
     </form>
 
-    <!-- <div>{{ todos }}</div>
-    <div>{{ message }}</div> -->
+    <div v-if="errorMessage" class="error">{{ errorMessage }}</div>
 
     <div class="todo-list">
       <TodoItem
@@ -86,5 +90,10 @@ button {
   border-radius: 8px;
   padding: 0.6em 1.2em;
   cursor: pointer;
+}
+
+.error {
+  color: red;
+  margin-top: 10px;
 }
 </style>

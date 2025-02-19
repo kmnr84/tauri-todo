@@ -13,10 +13,16 @@ impl TodoList {
 }
 
 #[tauri::command]
-pub fn add_todo(state: State<'_, TodoList>, title: String) {
+pub fn add_todo(state: State<'_, TodoList>, title: String) -> Result<(), String> {
     // println!("add_todo: title: {}", title);
     let mut todos = state.0.lock().unwrap();
-    todos.push(Todo::new(title).unwrap());
+    match Todo::new(title) {
+        Ok(todo) => {
+            todos.push(todo);
+            Ok(())
+        }
+        Err(e) => Err(e.to_string()),
+    }
 }
 
 #[tauri::command]
